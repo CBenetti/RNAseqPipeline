@@ -1,0 +1,5 @@
+./001_Trimming.sh:		conda activate trimmomatic_env
+./QC_params/002_QC_Trimmed:		#conda activate multiQC_env
+./QC_params/use/002_QC:		#conda activate multiQC_env
+./QC_params/use/002_QC_BAM:		conda activate Picard
+./QC_params/002_QC_Ribo_ex:		#conda activate multiQC_env

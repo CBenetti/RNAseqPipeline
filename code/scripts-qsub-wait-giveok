@@ -1,0 +1,12 @@
+#!/bin/tcsh
+
+#SBATCH -J wait-giveok
+#SBATCH --time=0-00:05:00
+#SBATCH -p cpu_dev
+#SBATCH -n 1
+#SBATCH --mem=1G
+#SBATCH -o ${1}.out
+#SBATCH -e ${1}.err
+source ./code/custom-tcshrc
+echo "Done waiting." >! $1
+

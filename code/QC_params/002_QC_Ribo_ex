@@ -1,0 +1,20 @@
+#!/bin/bash
+	module load fastqc/0.11.7 
+
+	if test ! -d ./out/QC
+	then
+		mkdir ./out/QC
+	fi
+
+###FastQC for Trimmed and Ribodepleted data
+	if [ -d out/processed/Ribo_ex ] && [ -n "$(ls -A out/processed/Ribo_ex)" ]
+	then
+		if test ! -d ./out/QC/Ribo_ex
+		then
+			mkdir ./out/QC/Ribo_ex
+		fi
+		fastqc -t 8 -q out/processed/Ribo_ex/*.fastq.gz -o out/QC/Ribo_ex
+		#conda activate multiQC_env
+		#multiqc -o out/QC/Ribo_ex -f ./out/QC/Ribo_ex
+		#conda deactivate
+	fi

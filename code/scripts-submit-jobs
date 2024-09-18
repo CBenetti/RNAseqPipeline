@@ -1,0 +1,37 @@
+#!/bin/tcsh
+#$ -S /bin/tcsh
+source code/custom-tcshrc
+##
+## USAGE: scripts-submit-jobs JOBS-SCRIPT [MAX-JOBS]
+##
+
+if ($#argv < 1) then
+  grep '^##' $0
+  exit
+endif
+
+set jobs_script = $1
+set max_jobs = $2
+if ($max_jobs == "") set max_jobs = `cat $jobs_script | wc -l`
+
+if (`cat $jobs_script | wc -l` > 0) then
+  set run_dir = "out/rundir"     # store run information here
+  mkdir $run_dir
+  set pref = $run_dir/__run_
+  cat $jobs_script | sed 's/$/ ; sleep 1/' >! $run_dir/__run-with-wait   # add waiting time after each job submission
+  split -a 10 -l $max_jobs $run_dir/__run-with-wait $pref                # split into multiple scripts to limit the number of jobs
+
+  foreach run (${pref}*)
+    chmod +x $run
+    set jid = `$run`
+#echo "$jid" >! solvethis.txt
+    ./code/scripts-qsub-wait "$jid"
+  end
+
+  # cleanup
+  rm -rf $run_dir
+endif
+
+
+
+

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+        if test ! -d ./out/QC
+        then
+		mkdir ./out/QC
+        fi
+
+
+###Picard for BAM data
+        if [ -d out/processed/STAR ] && [ -n "$(ls -A out/processed/STAR)" ]
+        then
+
+		if test ! -d ./out/QC/Picard
+                then
+			mkdir ./out/QC/Picard
+                fi
+
+		module load miniconda3/4.6.14
+		conda activate Picard
+
+		if test ! -d ./data/Genome/Picard;
+                then
+			module load ucscutils/398 bedops/2.4.41
+			mkdir ./data/Genome/Picard
+			fa_file=$(ls ./data/Genome/*.fasta)
+			gtf_file=$(ls ./data/Genome/*ensGene.gtf)
+			picard CreateSequenceDictionary -R ${fa_file} -O data/Genome/Picard/SequenceDictionary.dict
+			grep --color=none -i -e "rRNA" ${gtf_file} > data/Genome/Picard/ref_ribosome.gtf
+			gff2bed < data/Genome/Picard/ref_ribosome.gtf > data/Genome/Picard/ref_ribosome.bed
+			picard BedToIntervalList -I data/Genome/Picard/ref_ribosome.bed -O data/Genome/Picard/ref_ribosome.interval_list -SD data/Genome/Picard/SequenceDictionary.dict
+			gtfToGenePred -genePredExt ${gtf_file} data/Genome/Picard/GenePred.ref_flat.txt
+			cat data/Genome/Picard/GenePred.ref_flat.txt | awk '{print $12"\t"$0}' | cut -d$'\t' -f1-11 > tmp.txt
+			mv tmp.txt data/Genome/Picard/GenePred.ref_flat.txt
+		fi
+		for s in out/processed/STAR/*
+		do
+		picard CollectRnaSeqMetrics I=${s}/Aligned.sortedByCoord.out.bam O=out/QC/Picard/${s##*/}.RNA_Metrics REF_FLAT=data/Genome/Picard/GenePred.ref_flat.txt STRAND=FIRST_READ_TRANSCRIPTION_STRAND RIBOSOMAL_INTERVALS=data/Genome/Picard/ref_ribosome.interval_list
+		done
+		conda deactivate
+		module unload miniconda3/4.6.14
+
+        fi
+
+
+
+

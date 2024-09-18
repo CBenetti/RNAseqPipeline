@@ -1,0 +1,22 @@
+#!/bin/bash
+	module load fastqc/0.11.7 
+
+	if test ! -d ./out/QC
+	then
+		mkdir ./out/QC
+	fi
+
+
+###FastQC for Trimmed data
+	if [ -d out/processed/Trimmed ] && [ -n "$(ls -A out/processed/Trimmed)" ]
+	then
+		if test ! -d ./out/QC/Trimmed
+		then
+			mkdir ./out/QC/Trimmed
+		fi
+		fastqc -t 8 -q out/processed/Trimmed/*.fastq.gz -o out/QC/Trimmed
+		#conda activate multiQC_env
+		#multiqc -o out/QC/Trimmed -f ./out/QC/Trimmed
+		#conda deactivate
+	fi
+
