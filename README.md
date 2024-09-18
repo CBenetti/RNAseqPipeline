@@ -90,7 +90,7 @@ cd project_dir
 ```
 Clone this git repository inside the directory and extract the files as to obtain the architecture.
 ```
-git clone repo temp_repo
+git clone https://github.com/CBenetti/RNAseqPipeline.git temp_repo
 mv temp_repo/* ./
 rm -r temp_repo
 ```
