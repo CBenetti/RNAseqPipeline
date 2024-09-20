@@ -4,7 +4,6 @@
         library(ensembldb)
         library(AnnotationHub)
 	library(ggplot2)
-	library(dplyr)
 ###loading
 ##dataset
 	gene_counts <- read.table("out/count_matrix/tableCounts_e_rev",sep="\t",header=T)
@@ -65,4 +64,4 @@
 	wdir <-unlist(strsplit(wdir,"/"))
 	wd <- wdir[length(wdir)]
 	assign(wd,dataset)
-	wd %>% save(file=paste("out/count_matrix/",wd,"_expression_set.rda",sep=""))
+	save(list=wd,file=paste("out/count_matrix/",wd,"_expression_set.rda",sep=""))

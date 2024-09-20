@@ -30,7 +30,6 @@
                 echo "Directory exists"
         else
             	mkdir ./out/processed
-                mkdir ./out/processed/STAR
         fi
 
 ###Setting flags for each task
@@ -70,7 +69,9 @@
                 mkdir ./data/Genome/STAR_index
 		./001_STAR_genome.sh
         fi
-
+        if test ! -d ./out/processed/STAR; then
+                mkdir ./out/processed/STAR
+	fi
 ##make wrapper script
 	n=$((${#sorted_uniqued_ids[@]}))
 	array1=()
@@ -89,7 +90,7 @@
 ###Generating expression sets
 	module unload r
 	module load r/4.3.2
-	Rscript 004_expressionset_build.R
+	Rscript ./code/004_expressionset_build.R
 
 ###End
 	if compgen -G "slurm*" > /dev/null; then

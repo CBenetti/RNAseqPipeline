@@ -42,6 +42,9 @@ module load star/2.7.11b
 		samtools index out/processed/STAR/${ARG1}/Aligned.sortedByCoord.out.bam
 
 		set dir = `pwd`
+        	if (! -d ./out/QC) then
+        	        mkdir ./out/QC
+		endif
         	if (! -d ./out/QC/STAR) then
         	        mkdir ./out/QC/STAR
 		endif

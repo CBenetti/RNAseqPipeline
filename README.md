@@ -67,8 +67,6 @@ This R version must be equipped with the following packages:
 The following environment must be installed:
     * Picard:
     It contains Picard conda installation, as per instructed [here](https://anaconda.org/bioconda/picard)
-    * trimmomatic_env
-    It contains Trimmomatic conda installation, as per instructed [here](https://bioinformaticschool.com/mastering-trimmomatic-installation/)
 6. ucscutils/398
 7. bedops/2.4.41
 8. parallel/20231222
@@ -80,6 +78,7 @@ The following environment must be installed:
 14. gtools/3.0.0
 15. java/1.8
 16. gsl/2.5
+17. trimmomatic/0.39
 
 * ### Usage
 ##### 1. Installation
@@ -106,6 +105,7 @@ To run, the pipeline requires
     This directory must contain:
    1. Genome .fa file
    2. compatible gtf format annotations
+   These two files will have to be explicitly specified in the [code/001_Trimming.sh](https://github.com/CBenetti/RNAseqPipeline/blob/main/code/001_Trimming.sh) file.
   
   They can be downloaded de novo or linked from other projects
 * metadata.txt file
