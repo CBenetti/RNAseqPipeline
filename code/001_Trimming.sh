@@ -9,6 +9,7 @@
 #SBATCH -N 1
 #SBATCH -p cpu_medium
 source code/custom-tcshrc
+module load trimmomatic/0.39
 ##Adapter removal
 		#module load python/cpu/3.10.6
 		#module load miniconda3/4.6.14
