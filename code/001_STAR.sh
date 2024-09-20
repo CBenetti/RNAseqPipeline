@@ -48,6 +48,6 @@ module load star/2.7.11b
         	if (! -d ./out/QC/STAR) then
         	        mkdir ./out/QC/STAR
 		endif
-		ln -sn ${dir}/${i}/Log.final.out out/QC/STAR/`basename $i`Log.final.out
+		ln -sn ${dir}/${ARG1}/Log.final.out out/QC/STAR/`basename $ARG1`Log.final.out
 	endif
 
